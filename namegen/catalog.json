@@ -1,0 +1,187 @@
+{
+  "abbreviations": {
+    "dnd": "dungeon_and_dragons",
+    "sw": "star_wars",
+    "swtor": "star_wars_the_old_republic",
+    "war": "warhammer",
+    "war40k": "warhammer_40k",
+    "lotr": "lord_of_the_rings",
+    "lotro": "lord_of_the_rings_online",
+    "es": "elder_scrolls",
+    "st": "star_trek",
+    "got": "game_of_thrones",
+    "wow": "world_of_warcraft",
+    "ff": "final_fantasy",
+    "gw": "guild_wars",
+    "witcher": "the_witcher",
+    "ic": "inheritance_cycle",
+    "loz": "legend_of_zelda",
+    "dw": "doctor_who",
+    "hp": "harry_potter",
+    "halo": "halo",
+    "me": "mass_effect",
+    "destiny": "destiny",
+    "diablo": "diablo",
+    "db": "dragon_ball",
+    "pop": "pop_culture",
+    "pf": "pathfinder",
+    "fantasy": "fantasy",
+    "real": "real",
+    "wildstar": "wildstar"
+  },
+
+  "exclude_categories": [
+    "descriptions", "armour", "weapons", "pets",
+    "miscellaneous", "world_of_warcraft_pets"
+  ],
+
+  "domains": {
+    "names": {
+      "label": "Character Names",
+      "groups": [
+        {
+          "id": "names_by_country",
+          "label": "By Country",
+          "provider": "db_country",
+          "populate": "from_db_names"
+        },
+        {
+          "id": "names_real_world",
+          "label": "Real-World Cultures",
+          "provider": "onomastic",
+          "entries": [
+            { "id": "macro.romance", "label": "Romance / Latin" },
+            { "id": "macro.germanic", "label": "Germanic" },
+            { "id": "macro.slavic", "label": "Slavic" },
+            { "id": "macro.nordic_scandinavia", "label": "Nordic / Scandinavian" },
+            { "id": "macro.balkan", "label": "Balkan" },
+            { "id": "macro.uralic_europe", "label": "Uralic (Finnish/Hungarian)" },
+            { "id": "macro.arabic", "label": "Arabic" },
+            { "id": "macro.iranian", "label": "Iranian / Persian" },
+            { "id": "macro.turkic", "label": "Turkic" },
+            { "id": "macro.south_asia", "label": "South Asian" },
+            { "id": "macro.chinese_macro_han", "label": "Chinese" },
+            { "id": "macro.japan_korea", "label": "Japanese / Korean" },
+            { "id": "macro.indochina", "label": "Indochina / SE Asian" },
+            { "id": "macro.west_africa", "label": "West African" },
+            { "id": "macro.sahel", "label": "Sahel" },
+            { "id": "macro.bantu", "label": "Bantu / East African" },
+            { "id": "macro.horn_of_africa", "label": "Horn of Africa" },
+            { "id": "macro.celtic", "label": "Celtic" },
+            { "id": "macro.andes", "label": "Andean / Quechua" }
+          ]
+        },
+        {
+          "id": "names_historical",
+          "label": "Historical",
+          "provider": "onomastic",
+          "entries": [
+            { "id": "overlay.roman_latin_ancient", "label": "Roman / Latin" },
+            { "id": "overlay.viking_age", "label": "Viking Age" },
+            { "id": "overlay.celtic_ancient", "label": "Celtic Ancient" },
+            { "id": "overlay.steppe_mongol_xiii", "label": "Mongol Steppe" },
+            { "id": "overlay.byzantine", "label": "Byzantine" },
+            { "id": "overlay.ottoman", "label": "Ottoman" },
+            { "id": "overlay.mughal", "label": "Mughal" },
+            { "id": "overlay.arab_islamic_golden_age", "label": "Islamic Golden Age" },
+            { "id": "overlay.persian_pre_islamic", "label": "Persian (Pre-Islamic)" },
+            { "id": "overlay.japanese_feudal_edo", "label": "Japanese Feudal" },
+            { "id": "overlay.chinese_imperial", "label": "Chinese Imperial" },
+            { "id": "overlay.frankish_carolingian", "label": "Frankish / Carolingian" },
+            { "id": "overlay.greco_classical", "label": "Greco-Classical" },
+            { "id": "overlay.anglo_norman", "label": "Anglo-Norman" },
+            { "id": "overlay.early_medieval_germanic_migrations", "label": "Early Medieval Germanic" }
+          ]
+        },
+        {
+          "id": "names_curated",
+          "label": "Mythological",
+          "provider": "curated",
+          "entries": [
+            { "id": "demons", "label": "Demons" },
+            { "id": "angels", "label": "Angels" },
+            { "id": "egyptdeities", "label": "Egyptian Deities" },
+            { "id": "emperors", "label": "Roman Emperors" }
+          ]
+        },
+        { "id": "names_fantasy", "label": "Fantasy", "abbreviation": "fantasy", "provider": "fantasy", "category_filter": ["fantasy"] },
+        { "id": "names_real_gen", "label": "Real-World (Phonetic)", "abbreviation": "real", "provider": "fantasy", "category_filter": ["real"] },
+        { "id": "names_dnd", "label": "D&D", "abbreviation": "dnd", "provider": "fantasy", "category_filter": ["dungeon_and_dragons"] },
+        { "id": "names_pf", "label": "Pathfinder", "abbreviation": "pf", "provider": "fantasy", "category_filter": ["pathfinder"] },
+        { "id": "names_lotr", "label": "Lord of the Rings", "abbreviation": "lotr", "provider": "fantasy", "category_filter": ["lord_of_the_rings", "lord_of_the_rings_online"] },
+        { "id": "names_es", "label": "Elder Scrolls", "abbreviation": "es", "provider": "fantasy", "category_filter": ["elder_scrolls"] },
+        { "id": "names_war", "label": "Warhammer", "abbreviation": "war", "provider": "fantasy", "category_filter": ["warhammer"] },
+        { "id": "names_war40k", "label": "Warhammer 40K", "abbreviation": "war40k", "provider": "fantasy", "category_filter": ["warhammer_40k"] },
+        { "id": "names_sw", "label": "Star Wars", "abbreviation": "sw", "provider": "fantasy", "category_filter": ["star_wars"] },
+        { "id": "names_swtor", "label": "SW: Old Republic", "abbreviation": "swtor", "provider": "fantasy", "category_filter": ["star_wars_the_old_republic"] },
+        { "id": "names_st", "label": "Star Trek", "abbreviation": "st", "provider": "fantasy", "category_filter": ["star_trek"] },
+        { "id": "names_got", "label": "Game of Thrones", "abbreviation": "got", "provider": "fantasy", "category_filter": ["game_of_thrones"] },
+        { "id": "names_wow", "label": "World of Warcraft", "abbreviation": "wow", "provider": "fantasy", "category_filter": ["world_of_warcraft"] },
+        { "id": "names_ff", "label": "Final Fantasy", "abbreviation": "ff", "provider": "fantasy", "category_filter": ["final_fantasy"] },
+        { "id": "names_gw", "label": "Guild Wars", "abbreviation": "gw", "provider": "fantasy", "category_filter": ["guild_wars"] },
+        { "id": "names_witcher", "label": "The Witcher", "abbreviation": "witcher", "provider": "fantasy", "category_filter": ["the_witcher"] },
+        { "id": "names_ic", "label": "Inheritance Cycle", "abbreviation": "ic", "provider": "fantasy", "category_filter": ["inheritance_cycle"] },
+        { "id": "names_loz", "label": "Legend of Zelda", "abbreviation": "loz", "provider": "fantasy", "category_filter": ["legend_of_zelda"] },
+        { "id": "names_dw", "label": "Doctor Who", "abbreviation": "dw", "provider": "fantasy", "category_filter": ["doctor_who"] },
+        { "id": "names_hp", "label": "Harry Potter", "abbreviation": "hp", "provider": "fantasy", "category_filter": ["harry_potter"] },
+        { "id": "names_halo", "label": "Halo", "abbreviation": "halo", "provider": "fantasy", "category_filter": ["halo"] },
+        { "id": "names_me", "label": "Mass Effect", "abbreviation": "me", "provider": "fantasy", "category_filter": ["mass_effect"] },
+        { "id": "names_destiny", "label": "Destiny", "abbreviation": "destiny", "provider": "fantasy", "category_filter": ["destiny"] },
+        { "id": "names_diablo", "label": "Diablo", "abbreviation": "diablo", "provider": "fantasy", "category_filter": ["diablo"] },
+        { "id": "names_db", "label": "Dragon Ball", "abbreviation": "db", "provider": "fantasy", "category_filter": ["dragon_ball"] },
+        { "id": "names_pop", "label": "Pop Culture", "abbreviation": "pop", "provider": "fantasy", "category_filter": ["pop_culture"] },
+        { "id": "names_wildstar", "label": "Wildstar", "abbreviation": "wildstar", "provider": "fantasy", "category_filter": ["wildstar"] }
+      ]
+    },
+    "places": {
+      "label": "Place Names",
+      "groups": [
+        {
+          "id": "places_by_country",
+          "label": "By Country",
+          "provider": "db_country_place",
+          "populate": "from_db_places"
+        },
+        {
+          "id": "places_real_world",
+          "label": "Real-World Regions",
+          "provider": "onomastic_place",
+          "entries": [
+            { "id": "macro.arabic", "label": "Arabic Region" },
+            { "id": "macro.slavic", "label": "Slavic" },
+            { "id": "macro.romance", "label": "Romance / Latin" },
+            { "id": "macro.germanic", "label": "Germanic" },
+            { "id": "macro.south_asia", "label": "South Asian" },
+            { "id": "macro.chinese_macro_han", "label": "Chinese" },
+            { "id": "macro.japan_korea", "label": "Japanese / Korean" },
+            { "id": "macro.west_africa", "label": "West African" },
+            { "id": "macro.nordic_scandinavia", "label": "Nordic / Scandinavian" },
+            { "id": "macro.turkic", "label": "Turkic" }
+          ]
+        },
+        {
+          "id": "places_curated",
+          "label": "Curated Lists",
+          "provider": "curated",
+          "entries": [
+            { "id": "planets", "label": "Planets & Satellites" },
+            { "id": "greekcities", "label": "Ancient Greek Cities" },
+            { "id": "states", "label": "US States" }
+          ]
+        },
+        {
+          "id": "places_settlements",
+          "label": "Fantasy Settlements",
+          "provider": "fantasy",
+          "category_filter": ["towns_and_cities"]
+        },
+        {
+          "id": "places_landmarks",
+          "label": "Fantasy Landmarks",
+          "provider": "fantasy",
+          "category_filter": ["places"]
+        }
+      ]
+    }
+  }
+}

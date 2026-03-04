@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RPG Name Generator</title>
+<link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+
+<header>
+  <h1>RPG Name Generator</h1>
+  <p class="subtitle">World-Building Onomastics Engine</p>
+</header>
+
+<div class="app-shell">
+  <aside id="sidebar">
+    <div class="sidebar-tabs">
+      <button class="tab-btn active" data-domain="names">Names</button>
+      <button class="tab-btn" data-domain="places">Places</button>
+    </div>
+    <div class="sidebar-filter">
+      <input type="text" id="sidebar-search" placeholder="Filter..." autocomplete="off">
+    </div>
+    <div id="sidebar-groups"></div>
+  </aside>
+
+  <main id="main-panel">
+    <section id="form-section">
+      <div id="rows-container"></div>
+      <div class="form-actions">
+        <label class="checkbox-label" title="Transliterate non-Latin scripts (Cyrillic, CJK, etc.) to Latin while keeping diacritics">
+          <input type="checkbox" id="chk-romanize"> Romanize
+        </label>
+        <button id="btn-generate" class="btn btn-primary">Generate All</button>
+      </div>
+    </section>
+
+    <section id="results-section" class="hidden">
+      <div class="results-header">
+        <h2>Results</h2>
+        <div class="results-actions">
+          <button id="btn-reroll-all" class="btn btn-secondary">Re-roll All</button>
+          <button id="btn-export-csv" class="btn btn-ghost">CSV</button>
+          <button id="btn-export-json" class="btn btn-ghost">JSON</button>
+          <button id="btn-export-txt" class="btn btn-ghost">TXT</button>
+        </div>
+      </div>
+      <div id="results-grid"></div>
+    </section>
+  </main>
+</div>
+
+<script src="/static/app.js"></script>
+</body>
+</html>

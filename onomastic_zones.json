@@ -1,0 +1,221 @@
+{
+  "schema": "onomastics-zones/v1",
+  "generated_at": "2026-03-03",
+  "country_code_standard": "ISO-3166-1 alpha-2 (plus HK, MO)",
+  "ref_format": "<category>.<id> (ex: style.russian, overlay.ottoman, macro.slavic)",
+  "ops": ["union", "intersect", "diff"],
+  "atomic_tags": {
+    "style": {
+      "french": { "label": "Français (France)", "countries": ["FR"] },
+      "francophone": { "label": "Francophone (FR + BE + CH)", "countries": ["FR", "BE", "CH"] },
+      "italian": { "label": "Italien (IT + proches)", "countries": ["IT", "CH"] },
+      "spanish_europe": { "label": "Espagnol (Europe)", "countries": ["ES"] },
+      "portuguese_europe": { "label": "Portugais (Europe)", "countries": ["PT"] },
+      "romanian_moldovan": { "label": "Roumain / Moldave", "countries": ["RO", "MD"] },
+      "greek": { "label": "Grec", "countries": ["GR", "CY"] },
+      "german_de_at": { "label": "Allemand (DE/AT)", "countries": ["DE", "AT"] },
+      "dutch_flemish": { "label": "Néerlandais / Flamand", "countries": ["NL", "BE"] },
+      "english_uk": { "label": "Anglais (UK)", "countries": ["GB"] },
+      "scandinavian": { "label": "Scandinave (SE/NO/DK)", "countries": ["SE", "NO", "DK"] },
+      "hungarian": { "label": "Hongrois", "countries": ["HU"] },
+      "finnish_estonian": { "label": "Finnois / Estonien", "countries": ["FI", "EE"] },
+      "baltic": { "label": "Balte (LT/LV)", "countries": ["LT", "LV"] },
+      "basque": { "label": "Basque", "countries": ["ES", "FR"] },
+      "catalan": { "label": "Catalan", "countries": ["ES", "AD", "FR"] },
+
+      "russian": { "label": "Russe", "countries": ["RU"] },
+      "ukrainian": { "label": "Ukrainien", "countries": ["UA"] },
+      "belarusian": { "label": "Biélorusse", "countries": ["BY"] },
+      "polish": { "label": "Polonais", "countries": ["PL"] },
+      "czech_slovak": { "label": "Tchèque / Slovaque", "countries": ["CZ", "SK"] },
+      "balkan_slavic": { "label": "Balkan slave (BCS + voisins)", "countries": ["RS", "BA", "HR", "ME", "SI", "MK", "BG"] },
+
+      "arabic_maghreb": { "label": "Arabe maghrébin", "countries": ["MA", "DZ", "TN", "LY", "MR"] },
+      "arabic_egypt_sudan": { "label": "Arabe égyptien / soudanais", "countries": ["EG", "SD"] },
+      "arabic_levant": { "label": "Arabe levantin", "countries": ["LB", "SY", "JO", "PS", "IL"] },
+      "arabic_gulf": { "label": "Arabe du Golfe", "countries": ["SA", "AE", "QA", "BH", "KW"] },
+      "arabic_yemen_oman": { "label": "Arabe Yémen / Oman", "countries": ["YE", "OM"] },
+
+      "amazigh_berber": { "label": "Amazigh / Berbère (nord)", "countries": ["MA", "DZ", "TN", "LY"] },
+      "tuareg": { "label": "Touareg", "countries": ["ML", "NE", "DZ", "LY", "BF"] },
+      "persian": { "label": "Persan (farsi/dari/tadjik)", "countries": ["IR", "AF", "TJ"] },
+      "turkish": { "label": "Turc (anatolien)", "countries": ["TR", "CY"] },
+
+      "swahili": { "label": "Swahili", "countries": ["TZ", "KE", "UG", "RW", "BI", "CD"] },
+      "amhari_tigrinya": { "label": "Amharique / Tigrinya (plateaux)", "countries": ["ET", "ER"] },
+      "somali": { "label": "Somali", "countries": ["SO", "DJ", "ET", "KE"] },
+      "hausa": { "label": "Hausa", "countries": ["NG", "NE"] },
+      "fulani": { "label": "Peul / Fulani", "countries": ["SN", "GN", "ML", "NE", "NG", "CM", "TD"] },
+      "wolof": { "label": "Wolof", "countries": ["SN", "GM", "MR"] },
+      "mande": { "label": "Mandé (bambara/mandingue)", "countries": ["ML", "GN", "CI", "BF", "SN"] },
+      "yoruba": { "label": "Yoruba", "countries": ["NG", "BJ", "TG"] },
+      "zulu_xhosa": { "label": "Zoulou / Xhosa", "countries": ["ZA"] },
+
+      "hindi": { "label": "Hindi (Inde nord)", "countries": ["IN"] },
+      "urdu": { "label": "Urdu (Pakistan / Inde)", "countries": ["PK", "IN"] },
+      "bengali": { "label": "Bengali", "countries": ["BD", "IN"] },
+      "punjabi": { "label": "Punjabi", "countries": ["PK", "IN"] },
+      "tamil": { "label": "Tamoul", "countries": ["IN", "LK", "SG", "MY"] },
+      "pashto": { "label": "Pashto", "countries": ["AF", "PK"] },
+      "central_asia_turkic": { "label": "Asie centrale turcique (UZ/KZ/KG/TM)", "countries": ["UZ", "KZ", "KG", "TM"] },
+
+      "mandarin": { "label": "Mandarin (Chine/Taïwan/Singapour)", "countries": ["CN", "TW", "SG"] },
+      "cantonese": { "label": "Cantonais (HK/MO + sud Chine)", "countries": ["HK", "MO", "CN"] },
+      "japanese": { "label": "Japonais", "countries": ["JP"] },
+      "korean": { "label": "Coréen", "countries": ["KR", "KP"] },
+      "vietnamese": { "label": "Vietnamien", "countries": ["VN"] },
+      "indochina_thai_lao_khmer_burmese": { "label": "Indochine (thai/lao/khmer/birman)", "countries": ["TH", "LA", "KH", "MM"] },
+
+      "spanish_americas": { "label": "Espagnol (Amériques)", "countries": ["MX", "CO", "AR", "PE", "CL", "EC", "BO", "VE", "GT", "CU", "DO"] },
+      "portuguese_brazil": { "label": "Portugais (Brésil)", "countries": ["BR"] },
+      "quechua_inca": { "label": "Andes quechua / inca (quechua)", "countries": ["PE", "BO", "EC", "AR", "CL"] }
+    },
+
+    "overlay": {
+      "greco_classical": { "label": "Gréco-classique (antique)", "countries": ["GR", "TR", "CY", "IT"] },
+      "roman_latin_ancient": { "label": "Romain / latin antique", "countries": ["IT", "FR", "ES", "PT", "RO", "TN", "DZ", "TR"] },
+      "celtic_ancient": { "label": "Celte antique", "countries": ["IE", "GB", "FR", "ES"] },
+      "early_medieval_germanic_migrations": { "label": "Migrations “germaniques” (haut MA)", "countries": ["DE", "AT", "GB", "FR", "ES", "IT"] },
+      "viking_age": { "label": "Âge viking", "countries": ["NO", "SE", "DK", "IS", "GB", "IE"] },
+      "frankish_carolingian": { "label": "Franc / carolingien", "countries": ["FR", "DE", "BE", "CH", "NL"] },
+      "anglo_norman": { "label": "Anglo-normand", "countries": ["GB", "FR", "IE"] },
+      "byzantine": { "label": "Byzantin", "countries": ["GR", "TR", "BG", "RS", "RO"] },
+      "ottoman": { "label": "Ottoman", "countries": ["TR", "BG", "GR", "RO", "RS", "BA", "AL", "MK", "ME"] },
+      "persian_pre_islamic": { "label": "Perse pré-islamique", "countries": ["IR", "IQ", "AF"] },
+      "arab_islamic_golden_age": { "label": "Âge d’or arabo-islamique", "countries": ["SA", "IQ", "SY", "EG", "TN", "MA"] },
+      "mughal": { "label": "Moghol (Inde islamique)", "countries": ["IN", "PK", "BD"] },
+      "chinese_imperial": { "label": "Empire chinois (impérial)", "countries": ["CN", "TW"] },
+      "japanese_feudal_edo": { "label": "Japon féodal (Edo)", "countries": ["JP"] },
+      "steppe_mongol_xiii": { "label": "Steppe / mongol (XIIIe)", "countries": ["MN", "CN", "RU", "KZ"] }
+    },
+
+    "script": {
+      "cyrillic_dominant": { "label": "Écriture cyrillique dominante", "countries": ["RU", "UA", "BY", "BG", "RS", "MK"] },
+      "arabic_script_dominant": { "label": "Écriture arabe dominante", "countries": ["MA", "DZ", "TN", "LY", "MR", "EG", "SD", "SA", "AE", "QA", "BH", "KW", "YE", "OM", "IQ"] },
+      "devanagari_dominant": { "label": "Devanagari dominante", "countries": ["IN", "NP"] },
+      "sinograms_hanzi_kanji_hanja": { "label": "Sinogrammes (Hanzi/Kanji/Hanja)", "countries": ["CN", "TW", "JP", "KR"] },
+      "latin_west_europe": { "label": "Latin standard “Europe Ouest”", "countries": ["FR", "ES", "PT", "IT", "DE", "NL", "BE", "GB", "IE"] },
+      "latin_diacritics_north_east": { "label": "Latin “diacritiques nord/est”", "countries": ["PL", "CZ", "SK", "HU", "RO", "LT", "LV", "EE", "FI"] },
+      "latin_maghreb_francophone": { "label": "Latin “Maghreb francophone” (transcriptions mixtes)", "countries": ["MA", "DZ", "TN"] },
+      "latin_africa_anglophone": { "label": "Latin “Afrique anglophone” (transcriptions anglaises)", "countries": ["NG", "KE", "UG", "GH", "ZA"] },
+      "latin_americas_hispanic": { "label": "Latin “Amériques hispano” (orthographe espagnole)", "countries": ["MX", "CO", "AR", "PE", "CL", "EC", "BO", "VE", "GT", "CU", "DO"] },
+      "latin_brazil": { "label": "Latin “Brésil” (orthographe portugaise)", "countries": ["BR"] }
+    }
+  },
+
+  "composite_tags": {
+    "macro": {
+      "slavic": {
+        "label": "Slave (macro)",
+        "definition": { "op": "union", "tags": ["style.russian", "style.ukrainian", "style.belarusian", "style.polish", "style.czech_slovak", "style.balkan_slavic"] }
+      },
+      "germanic": {
+        "label": "Germanique (macro)",
+        "definition": { "op": "union", "tags": ["style.german_de_at", "style.dutch_flemish", "style.english_uk", "style.scandinavian"], "add_countries": ["CH", "IE", "IS"] }
+      },
+      "romance": {
+        "label": "Latin / Romance (macro)",
+        "definition": { "op": "union", "tags": ["style.french", "style.spanish_europe", "style.portuguese_europe", "style.italian", "style.romanian_moldovan"] }
+      },
+      "celtic": {
+        "label": "Celtique (macro)",
+        "definition": { "op": "union", "tags": ["overlay.celtic_ancient"], "add_countries": ["GB", "IE", "FR", "ES"] }
+      },
+      "nordic_scandinavia": {
+        "label": "Nordique / Scandinave (macro)",
+        "definition": { "op": "union", "tags": ["style.scandinavian"], "add_countries": ["IS", "FI"] }
+      },
+      "balkan": {
+        "label": "Balkan (macro)",
+        "definition": { "op": "union", "tags": ["style.greek", "style.balkan_slavic"], "add_countries": ["AL", "RO", "ME", "MK", "BG", "RS", "BA", "HR"] }
+      },
+      "uralic_europe": {
+        "label": "Ouralique Europe (macro)",
+        "definition": { "op": "union", "tags": ["style.finnish_estonian", "style.hungarian"] }
+      },
+      "turkic": {
+        "label": "Turcique (macro)",
+        "definition": { "op": "union", "tags": ["style.turkish", "style.central_asia_turkic"], "add_countries": ["AZ"] }
+      },
+      "iranian": {
+        "label": "Iranien (macro)",
+        "definition": { "op": "union", "tags": ["style.persian", "style.pashto"], "add_countries": ["IR", "AF", "TJ", "PK", "IQ", "TR"] }
+      },
+      "arabic": {
+        "label": "Arabe (macro)",
+        "definition": {
+          "op": "union",
+          "tags": ["style.arabic_maghreb", "style.arabic_egypt_sudan", "style.arabic_levant", "style.arabic_gulf", "style.arabic_yemen_oman"],
+          "add_countries": ["IQ"]
+        }
+      },
+      "amazigh_macro": {
+        "label": "Amazigh / Berbère (macro)",
+        "definition": { "op": "union", "tags": ["style.amazigh_berber"] }
+      },
+      "sahel": {
+        "label": "Sahel (macro)",
+        "definition": {
+          "op": "union",
+          "tags": ["style.wolof", "style.fulani", "style.mande", "style.hausa"],
+          "add_countries": ["SN", "MR", "ML", "BF", "NE", "NG", "CM", "TD"]
+        }
+      },
+      "west_africa": {
+        "label": "Afrique de l’Ouest (macro)",
+        "definition": {
+          "op": "union",
+          "tags": ["style.wolof", "style.fulani", "style.mande", "style.yoruba"],
+          "add_countries": ["SN", "GM", "GN", "ML", "BF", "CI", "GH", "BJ", "TG", "NG", "NE"]
+        }
+      },
+      "bantu": {
+        "label": "Bantou (macro)",
+        "definition": {
+          "op": "union",
+          "tags": ["style.swahili", "style.zulu_xhosa"],
+          "add_countries": ["TZ", "KE", "UG", "RW", "BI", "CD", "CG", "AO", "MZ", "ZW"]
+        }
+      },
+      "horn_of_africa": {
+        "label": "Corne de l’Afrique (macro)",
+        "definition": { "op": "union", "tags": ["style.amhari_tigrinya", "style.somali"], "add_countries": ["DJ", "KE"] }
+      },
+      "south_asia": {
+        "label": "Inde / sous-continent (macro)",
+        "definition": { "op": "union", "tags": ["style.hindi", "style.urdu", "style.bengali", "style.punjabi", "style.tamil"], "add_countries": ["NP", "LK", "BD", "PK"] }
+      },
+      "chinese_macro_han": {
+        "label": "Chinois (macro Han)",
+        "definition": { "op": "union", "tags": ["style.mandarin", "style.cantonese"] }
+      },
+      "japan_korea": {
+        "label": "Japon / Corée (macro)",
+        "definition": { "op": "union", "tags": ["style.japanese", "style.korean"] }
+      },
+      "indochina": {
+        "label": "Indochine (macro)",
+        "definition": { "op": "union", "tags": ["style.vietnamese", "style.indochina_thai_lao_khmer_burmese"] }
+      },
+      "andes": {
+        "label": "Andes (macro)",
+        "definition": { "op": "union", "tags": ["style.quechua_inca"], "add_countries": ["PE", "BO", "EC", "AR", "CL"] }
+      }
+    }
+  },
+
+  "composition_examples": {
+    "example_1_west_africa_islamic_overlay": {
+      "label": "Afrique de l’Ouest + couche arabo-islamique (exemple)",
+      "definition": { "op": "intersect", "tags": ["macro.west_africa", "overlay.arab_islamic_golden_age"] }
+    },
+    "example_2_romance_without_france": {
+      "label": "Romance sans France (exemple)",
+      "definition": { "op": "diff", "tags": ["macro.romance"], "remove_countries": ["FR"] }
+    },
+    "example_3_balkan_cyrillic_only": {
+      "label": "Balkans où le cyrillique est dominant (exemple)",
+      "definition": { "op": "intersect", "tags": ["macro.balkan", "script.cyrillic_dominant"] }
+    }
+  }
+}

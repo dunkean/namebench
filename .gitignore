@@ -1,0 +1,32 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+dist/
+build/
+*.egg
+
+# Data sources (large, download separately — see README)
+forebears_names.json
+forebears_checkpoint/
+philipperemy__name-dataset/
+Snake4life__fantasy-names/
+allCountries.zip
+
+# Built database
+data/names.db
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Virtual environments
+venv/
+.venv/
+env/
