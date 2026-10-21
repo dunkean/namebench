@@ -1,5 +1,5 @@
 {
-  "name": "nomnom-browser-checks",
+  "name": "namebench-browser-checks",
   "private": true,
   "scripts": {
     "test:browser": "node tests/browser/demo.cjs"

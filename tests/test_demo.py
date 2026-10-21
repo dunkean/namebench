@@ -53,7 +53,7 @@ def test_bulk_and_transliteration(demo):
 def test_web_catalogue_and_generation(demo):
     app = create_app(demo, demo=True)
     client = app.test_client()
-    assert b"Nomnom" in client.get("/").data
+    assert b"Namebench" in client.get("/").data
     catalog = client.get("/api/catalog").get_json()
     assert {d["id"] for d in catalog["domains"]} == {"names", "places"}
     for domain in catalog["domains"]:
@@ -97,7 +97,7 @@ def test_unknown_style_does_not_crash_batch(demo):
 
 def test_missing_database_has_actionable_error(tmp_path):
     configure_database(tmp_path / "absent.db")
-    with pytest.raises(ValueError, match="nomnom demo"):
+    with pytest.raises(ValueError, match="namebench demo"):
         generate("FR")
     assert not (tmp_path / "absent.db").exists()
 
@@ -105,7 +105,7 @@ def test_missing_database_has_actionable_error(tmp_path):
 def test_full_build_honours_database_override(tmp_path, monkeypatch):
     import namegen.importers as importers
     destination = tmp_path / "new" / "names.db"
-    monkeypatch.setenv("NOMNOM_DB_PATH", str(destination))
+    monkeypatch.setenv("NAMEBENCH_DB_PATH", str(destination))
     for name in ("import_curated", "import_fantasy", "import_forebears",
                  "import_philipperemy", "import_geonames"):
         monkeypatch.setattr(importers, name, lambda db, data_dir: None)

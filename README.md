@@ -1,13 +1,12 @@
-# Nomnom
+# Namebench
 
-Des noms à grignoter pour vos mondes imaginaires. Petit projet provisoire de prénoms, patronymes et toponymes : pays, cultures, listes et générateurs fantasy.
+A small, standalone sandbox for personal names and place names. Pick a country, cultural style or fantasy generator, then generate and export a batch.
 
-![Démo locale](docs/images/demo.png)
+![Local demo](docs/images/demo.png)
 
+## Run the demo
 
-## Une démo qui démarre sans les gigas
-
-Python 3.11+ (3.12 recommandé). Sous Windows : double-cliquer sur **`demo.cmd`**. Le premier lancement crée `.venv` et installe le projet ; ouvrir **http://127.0.0.1:5001** et garder le terminal ouvert.
+Python 3.12 is the validated version. On Windows, double-click **`demo.cmd`**, then open **http://127.0.0.1:5001**. The first launch creates a private virtual environment and installs the pinned dependencies. Keep the terminal open.
 
 ```powershell
 python -m venv .venv
@@ -16,11 +15,13 @@ python -m venv .venv
 .venv\Scripts\python.exe -m namegen demo
 ```
 
-Sous Linux/macOS : utiliser `.venv/bin/python`. La petite base est construite depuis un échantillon écrit à la main, embarqué dans le paquet, puis conservée dans `~/.nomnom/demo-v1.db`. Aucun scraping ni téléchargement de données n'est nécessaire. Tester France/GB/Japon, elfes, lieux et export JSON/CSV/TXT. Tous les styles du moteur ne sont pas présents dans cet échantillon.
+On Linux/macOS, use `.venv/bin/python` instead. The installed command is `namebench`.
 
-## Base mondiale locale
+The demo builds a small SQLite database from a bundled, hand-authored sample. It requires no world dataset, scraper, API key or sibling project. Try France, Britain, Japan, fantasy names, place names and JSON/CSV/TXT export. Only a subset of the full style catalogue is represented in this sample.
 
-La base complète est **séparée** de la démo et ignorée par Git. Si `data/names.db` existe :
+## Use the world dataset
+
+The full local database is separate from the demo and excluded from Git:
 
 ```powershell
 .venv\Scripts\python.exe -m namegen demo --database data/names.db
@@ -30,43 +31,52 @@ La base complète est **séparée** de la démo et ignorée par Git. Si `data/na
 .venv\Scripts\python.exe -m namegen french surname 100000 --bulk
 ```
 
-`NOMNOM_DB_PATH` permet de sélectionner la base pour le CLI et l'API Python. Pour interroger la petite démo depuis le CLI : définir cette variable sur `~/.nomnom/demo-v1.db` après son premier lancement. `--stats` décrit la base sélectionnée, `--list` les styles du moteur.
+`NAMEBENCH_DB_PATH` selects the database for CLI and Python calls. The default full-data path is `data/names.db` in the checkout. The demo cache is `~/.namebench/demo-v1.db`; point `NAMEBENCH_DB_PATH` there to query the sample from the CLI after its first launch.
 
-L'instantané local vérifié le 21 octobre 2026 contient 8 634 303 entrées de noms, 10 170 527 lieux, 731 générateurs fantasy et 1 421 entrées sélectionnées, pour 1,21 Go. Ce ne sont pas des nombres de noms uniques. Le clone Git contient le code et la démo, **pas** cette base.
+The local snapshot checked on October 21, 2026 contains **8,634,303 name entries**, **10,170,527 places**, **731 fantasy generators** and **1,421 curated entries**, occupying 1.21 GB. These are row counts, not distinct-name counts. The repository ships the code and small demo, not the world database.
 
-Voir [les données et leur reconstruction](docs/data.md) avant de reconstruire une base complète. Le build refuse une base existante et exige un nouveau fichier de sortie.
+See [data sources and rebuilding](docs/data.md). Builds require a new output file and refuse to overwrite an existing database.
 
-## Python et codes personnalisés
+## Python and custom styles
 
 ```python
 from namegen import generate, generate_bulk
+
 names = generate("french", "fullname", 5)
 for name in generate_bulk("elf", "surname", 100000):
     pass
 ```
 
-`namegen/onomastic_zones.json` définit cultures, superpositions et opérations d'ensembles. `namegen/catalog.json` définit groupes et abréviations : pays ISO (`FR`, `JP`), cultures (`french`), fantasy (`elf`, `sw.wookiees`), listes (`demons`). Les dictionnaires sélectionnés restent dans `defaultDictionaries.json`.
+- `namegen/onomastic_zones.json`: cultural groups, historical overlays and country-set operations.
+- `namegen/catalog.json`: UI groups and aliases, including `FR`, `JP`, `french`, `elf` and `sw.wookiees`.
+- `defaultDictionaries.json`: curated source lists.
 
-## Contrat et limites
+## API and limits
 
-- Types : `forename`, `surname`, `fullname`, `place` ; genre `M`, `F` ou absent ; romanisation facultative.
-- HTTP : `GET /api/catalog`, `GET /api/styles`, `POST /api/generate` avec `{"requests":[{"style":"FR","type":"fullname","count":5}]}`. Maximum 20 lignes de 100 noms ; entrées invalides : HTTP 400. Les erreurs par style sont dans chaque résultat.
-- Un petit pool peut rendre moins de noms que demandé ; `returned_count` précise le résultat HTTP. Le bulk peut répéter ; `--unique` est plafonné au pool disponible.
-- Les styles historiques sélectionnent surtout des pays actuels : aucune authenticité historique garantie. Les corpus mondiaux peuvent contenir du bruit.
-- Le hasard SQLite n'est pas reproductible par une graine Python. Aucun contrat de replay déterministe à ce stade.
-- Markov et hybride sont des stratégies expérimentales présentes dans le code, non sélectionnées par le résolveur public actuel.
-- Serveur local de démonstration, sans debug ni reloader. Aucun lien avec Cousinade ou un moteur de cartes.
+`GET /api/catalog`, `GET /api/styles`, and `POST /api/generate`:
 
-## Vérifier
+```json
+{"requests":[{"style":"FR","type":"fullname","count":5}]}
+```
+
+Types are `forename`, `surname`, `fullname` and `place`; gender is `M`, `F` or absent. Transliteration is optional. HTTP requests accept up to 20 rows of 100 names. Invalid input returns HTTP 400; individual style errors appear in the matching result.
+
+A small pool can return fewer names than requested; HTTP responses expose `returned_count`. Bulk sampling can repeat names; unique mode is capped by the available pool. Historical styles mostly select present-day country groups and do not establish historical authenticity. Real datasets can contain noisy entries.
+
+SQLite randomness is not controlled by a Python seed. There is no deterministic replay contract yet. Markov and hybrid strategies remain experimental code, outside the public resolver. Dataset names retain their original languages and writing systems.
+
+## Check the project
 
 ```powershell
 .venv\Scripts\python.exe -m pytest
 .venv\Scripts\python.exe -m build
 npm ci
-# Démo lancée sur 5001, Edge disponible sous Windows.
+# Start the demo first. Edge is the default browser on Windows.
 npm run test:browser
 ```
 
-`STUDIO_BROWSER` choisit un autre exécutable Chromium/Edge et `NOMNOM_URL` une autre URL. Captures : `output/screenshots/` (ignoré).
+`STUDIO_BROWSER` selects a Chromium/Edge executable; `NAMEBENCH_URL` selects another server URL. Screenshots go to ignored `output/screenshots/`.
 
-L'historique Git du générateur d'origine est conservé. Les grandes données locales restent à leur place. Voir [l'origine du projet](PROVENANCE.md).
+[Validation](docs/validation.md) · [Provenance](PROVENANCE.md)
+
+This is a local prototype. Its repository and history are independent of Lineage Lab and any map engine.

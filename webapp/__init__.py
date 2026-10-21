@@ -1,1 +1,1 @@
-"""Nomnom local browser application."""
+"""Namebench local browser application."""

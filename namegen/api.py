@@ -39,8 +39,8 @@ def _get_registry() -> StyleRegistry:
         if _db is None:
             _db = NameDB()
         if not _db.db_path.is_file():
-            raise ValueError("Name database missing. Run `nomnom demo` for the bundled demo, "
-                             "or build the full database with `nomnom --build`.")
+            raise ValueError("Name database missing. Run `namebench demo` for the bundled demo, "
+                             "or build the full database with `namebench --build`.")
         zones = OnomasticResolver()
         _catalog = Catalog(_db, zones)
         _registry = StyleRegistry(_db, zones, _catalog)

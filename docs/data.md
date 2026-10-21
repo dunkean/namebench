@@ -1,28 +1,30 @@
-# Données de Nomnom
+# Data sources
 
-La démo utilise `namegen/data/demo.json`, un petit échantillon écrit à la main ; il n'est pas extrait des corpus mondiaux. Sa base SQLite est distincte de `data/names.db`.
+The bundled demo reads `namegen/data/demo.json`, a hand-authored sample. It is not a scrape or an extract of the world database. Its cache is separate from `data/names.db`.
 
-Les grandes sources locales et les produits de scraping sont exclus de Git :
+Large source data and generated databases are excluded from Git.
 
-| Source | Chemin attendu à la racine |
+| Source | Expected path at the checkout root |
 | --- | --- |
-| Forebears | `forebears_checkpoint/results.jsonl` (entrée effective de l'importeur) |
+| Forebears | `forebears_checkpoint/results.jsonl` |
 | name-dataset | `philipperemy__name-dataset/` |
 | GeoNames | `allCountries.zip` |
 | Snake4life fantasy-names | `Snake4life__fantasy-names/` |
-| Listes sélectionnées | `defaultDictionaries.json` (inclus) |
+| Curated lists | `defaultDictionaries.json` (included) |
 
-Le JSON `forebears_names.json` est un produit local de compilation ; le build actuel lit le checkpoint JSONL. Ne pas le confondre avec l'entrée réelle.
+The current Forebears importer reads the JSONL checkpoint. `forebears_names.json` is a compiled local artifact, not its build input.
 
-Après acquisition des sources et vérification de leurs conditions d'utilisation, depuis la racine d'un clone, créer une **nouvelle base**, sans modifier l'existante :
+## Rebuild into a new file
+
+Acquire the required source data, then run from the checkout root:
 
 ```powershell
-$env:NOMNOM_DB_PATH="$PWD/data/names-rebuilt.db"
+$env:NAMEBENCH_DB_PATH="$PWD/data/names-rebuilt.db"
 .venv\Scripts\python.exe -m namegen --build
 .venv\Scripts\python.exe -m namegen --stats
 .venv\Scripts\python.exe -m namegen demo --database data/names-rebuilt.db
 ```
 
-Installer `.[scrape]` uniquement pour utiliser les scripts de collecte. Le lancement normal n'utilise pas ces scripts. Les importeurs indiquent les sources absentes ; une base construite sans toutes les sources sera partielle. Le build refuse désormais toute base existante : choisir un nouveau fichier pour éviter les doublons des importeurs.
+The build refuses an existing output database. Several importers append rows, so repeat imports must use a new file. Missing sources are reported and skipped; such a build will be partial.
 
-La présence des scripts et d'une base locale ne vaut pas autorisation de redistribuer les données. Le dépôt ne distribue aucun gros corpus ; les provenances et avis des sources doivent accompagner toute distribution séparée.
+Install `.[scrape]` only to run the collection scripts. Normal demo use does not invoke them. Source datasets retain their own provenance and redistribution terms; the repository does not bundle them. Original-language names and diacritics are data, not untranslated interface text.

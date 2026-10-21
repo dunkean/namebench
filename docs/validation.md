@@ -1,10 +1,10 @@
-# Vérification de la version autonome
+# Validation
 
-Vérifications locales du 21 octobre 2026, Windows, Python 3.12.13. Ces contrôles concernent la démo et le paquet extraits ; les grandes mesures historiques restent dans les autres documents.
+Standalone checks use Windows and Python 3.12.13. The runtime versions are pinned in `requirements.lock`.
 
-- 27 tests Python : base de démonstration séparée, noms/lieux/fantasy, romanisation, bulk, catalogue, validation HTTP, reconstruction dans un nouveau fichier et protection des bases existantes.
-- Parcours Edge sans interface : génération de noms et lieux, téléchargement JSON, captures desktop/mobile, absence d'erreurs JavaScript et de débordement horizontal à 390 px.
-- Construction wheel/sdist ; installation du wheel dans un environnement vierge hors du checkout, données et ressources web embarquées.
-- La base mondiale existante reste locale et séparée ; elle n'est pas nécessaire à ces contrôles.
+- 27 Python tests cover the separate sample database, name/place/fantasy generation, transliteration, bulk generation, catalogue, HTTP validation and safe full-data rebuilds.
+- Edge browser checks cover generation, JSON downloads, desktop/mobile layouts, JavaScript errors and horizontal overflow at 390 px.
+- Wheel and source distributions are built. The wheel is installed and exercised in a fresh environment outside the checkout, including its bundled data and web assets.
+- The full local world database is optional and is never required by these tests.
 
-Reproduire avec les commandes de README.md. Le serveur est une démo locale ; aucun hébergement public n'est configuré.
+Use the commands in README.md. GitHub Actions runs the Python tests and distribution build. The browser demo is served locally, without public hosting.

@@ -37,17 +37,17 @@ def build_demo(path):
 
 
 def main(argv=None):
-    parser = argparse.ArgumentParser(prog="nomnom demo")
+    parser = argparse.ArgumentParser(prog="namebench demo")
     parser.add_argument("--port", type=int, default=5001)
     parser.add_argument("--database", type=Path, help="Use a full database instead of the bundled demo")
-    parser.add_argument("--demo-database", type=Path, default=Path.home() / ".nomnom" / "demo-v1.db")
+    parser.add_argument("--demo-database", type=Path, default=Path.home() / ".namebench" / "demo-v1.db")
     args = parser.parse_args(argv)
     path = args.database.resolve() if args.database else build_demo(args.demo_database)
     if not path.is_file():
         parser.error(f"Database not found: {path}")
     from webapp.app import create_app
     app = create_app(path, demo=args.database is None)
-    print(f"Nomnom: http://127.0.0.1:{args.port} ({'demo' if args.database is None else 'full database'})")
+    print(f"Namebench: http://127.0.0.1:{args.port} ({'demo' if args.database is None else 'full database'})")
     app.run(host="127.0.0.1", port=args.port, debug=False, threaded=False)
 
 

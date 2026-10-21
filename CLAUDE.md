@@ -1,3 +1,3 @@
-# Nomnom
+# Namebench
 
-Lire README.md, AGENTS.md et docs/data.md. Les anciennes indications de volumes et chemins sont remplacées par ces documents. Bibliothèque : namegen ; application locale : webapp. Démo autonome : python -m namegen demo.
+Read README.md, AGENTS.md and docs/data.md. Library: `namegen`; local application: `webapp`. Run `python -m namegen demo` for the bundled sample. Keep user-facing text and documentation in English; preserve original-language dataset entries.

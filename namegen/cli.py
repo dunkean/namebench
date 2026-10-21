@@ -52,7 +52,7 @@ def cmd_stats(args):
 
     db = NameDB()
     if not db.db_path.is_file():
-        raise SystemExit("Database missing. Start with `nomnom demo`.")
+        raise SystemExit("Database missing. Start with `namebench demo`.")
     stats = db.stats()
     print("Database statistics:")
     for table, count in stats.items():
@@ -116,7 +116,8 @@ def main():
         if hasattr(stream, "reconfigure"):
             stream.reconfigure(encoding="utf-8")
     parser = argparse.ArgumentParser(
-        description="RPG Name Generator — World-Building Onomastics Engine",
+        prog="namebench",
+        description="Namebench — personal names and place names for imaginary worlds",
     )
 
     # Mode flags

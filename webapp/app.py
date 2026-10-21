@@ -1,4 +1,4 @@
-"""Nomnom local web application."""
+"""Namebench local web application."""
 from __future__ import annotations
 
 from flask import Flask, jsonify, request, render_template
