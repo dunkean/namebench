@@ -36,7 +36,11 @@ _catalog: Optional[Catalog] = None
 def _get_registry() -> StyleRegistry:
     global _db, _registry, _catalog
     if _registry is None:
-        _db = NameDB()
+        if _db is None:
+            _db = NameDB()
+        if not _db.db_path.is_file():
+            raise ValueError("Name database missing. Run `nomnom demo` for the bundled demo, "
+                             "or build the full database with `nomnom --build`.")
         zones = OnomasticResolver()
         _catalog = Catalog(_db, zones)
         _registry = StyleRegistry(_db, zones, _catalog)
@@ -63,6 +67,7 @@ def generate(
     Raises:
         ValueError: If style is not recognized or DB not built
     """
+    _validate_request(name_type, count, gender)
     registry = _get_registry()
     spec = registry.resolve(style)
 
@@ -117,6 +122,7 @@ def generate_bulk(
     Yields:
         One name at a time
     """
+    _validate_request(name_type, count, gender)
     registry = _get_registry()
     spec = registry.resolve(style)
 
@@ -162,3 +168,20 @@ def list_catalog() -> dict:
     """Return the full catalog as JSON-serializable dict for the webapp."""
     _get_registry()
     return _catalog.to_webapp_json()
+
+
+def configure_database(path):
+    """Select a database before starting a server or making generation calls."""
+    global _db, _registry, _catalog
+    if _db is not None:
+        _db.close()
+    _db, _registry, _catalog = NameDB(path), None, None
+
+
+def _validate_request(name_type, count, gender):
+    if name_type not in {"forename", "surname", "fullname", "place"}:
+        raise ValueError("Unknown name type")
+    if isinstance(count, bool) or not isinstance(count, int) or count < 1:
+        raise ValueError("Count must be a positive integer")
+    if gender not in {None, "M", "F"}:
+        raise ValueError("Gender must be M, F or null")

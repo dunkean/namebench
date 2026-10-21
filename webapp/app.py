@@ -1,123 +1,77 @@
-#!/usr/bin/env python3
-"""Flask webapp for the RPG Name Generator."""
-
+"""Nomnom local web application."""
 from __future__ import annotations
 
-import io
-import sys
-
-# Ensure UTF-8 output on Windows
-if sys.stdout.encoding != "utf-8":
-    sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding="utf-8", errors="replace")
-if sys.stderr.encoding != "utf-8":
-    sys.stderr = io.TextIOWrapper(sys.stderr.buffer, encoding="utf-8", errors="replace")
-
-# Add project root to path so we can import namegen
-from pathlib import Path
-sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
-
 from flask import Flask, jsonify, request, render_template
+from werkzeug.exceptions import BadRequest
 
-from namegen.api import generate, list_styles, list_catalog
-
-app = Flask(__name__)
-
-# Cached style catalog — built once on first request
-_style_catalog: list[dict] | None = None
+from namegen.api import configure_database, generate, list_styles, list_catalog
 
 
-def _build_catalog() -> list[dict]:
-    """Build grouped style catalog from list_styles()."""
-    raw = list_styles()
-    groups: list[dict] = []
+def create_app(database=None, demo=False):
+    if database is not None:
+        configure_database(database)
+    app = Flask(__name__)
+    app.config["MAX_CONTENT_LENGTH"] = 1_000_000
 
-    for category, names in sorted(raw.items()):
-        if category.startswith("fantasy/"):
-            cat_prefix = category.split("/", 1)[1]
-            display_names = [f"{cat_prefix}.{n}" for n in names]
-            label = f"Fantasy — {cat_prefix.replace('_', ' ').title()}"
-        elif category == "curated":
-            display_names = list(names)
-            label = "Curated"
-        elif category == "onomastic":
-            display_names = list(names)
-            label = "Onomastic (Real-World)"
-        else:
-            display_names = list(names)
-            label = category.replace("_", " ").title()
+    @app.get("/")
+    def index():
+        return render_template("index.html", demo=demo)
 
-        groups.append({"label": label, "styles": sorted(display_names)})
+    @app.get("/api/styles")
+    def api_styles():
+        return jsonify(list_styles())
 
-    return groups
+    @app.get("/api/catalog")
+    def api_catalog():
+        return jsonify(list_catalog())
 
-
-@app.route("/")
-def index():
-    return render_template("index.html")
-
-
-@app.route("/api/styles")
-def api_styles():
-    global _style_catalog
-    if _style_catalog is None:
-        _style_catalog = _build_catalog()
-    return jsonify(_style_catalog)
-
-
-@app.route("/api/catalog")
-def api_catalog():
-    return jsonify(list_catalog())
-
-
-@app.route("/api/generate", methods=["POST"])
-def api_generate():
-    body = request.get_json(force=True)
-    requests_list = body.get("requests", [])
-    results = []
-
-    for req in requests_list:
-        style = req.get("style", "")
-        name_type = req.get("type", "forename")
-        count = min(int(req.get("count", 1)), 100)
-        gender = req.get("gender") or None
-        romanize = bool(req.get("romanize", False))
-
+    @app.post("/api/generate")
+    def api_generate():
         try:
-            if name_type == "fullname":
-                forenames = generate(style, "forename", count, gender, romanize=romanize)
-                try:
-                    surnames = generate(style, "surname", count, None, romanize=romanize)
-                except Exception:
-                    surnames = []
-                if surnames:
-                    names = [f"{f} {s}" for f, s in zip(forenames, surnames)]
-                else:
-                    names = forenames
-            else:
+            body = request.get_json()
+            if not isinstance(body, dict) or not isinstance(body.get("requests"), list):
+                raise ValueError("Expected an object with a requests array")
+            if not 1 <= len(body["requests"]) <= 20:
+                raise ValueError("Send between 1 and 20 requests")
+            for item in body["requests"]:
+                if not isinstance(item, dict):
+                    raise ValueError("Each request must be an object")
+                count = item.get("count", 1)
+                if isinstance(count, bool) or not isinstance(count, int) or not 1 <= count <= 100:
+                    raise ValueError("Count must be an integer between 1 and 100")
+                if not isinstance(item.get("style"), str):
+                    raise ValueError("Style must be a string")
+                if item.get("type", "forename") not in ("forename", "surname", "fullname", "place"):
+                    raise ValueError("Unknown name type")
+                if item.get("gender") not in (None, "", "M", "F"):
+                    raise ValueError("Gender must be M, F or null")
+                if not isinstance(item.get("romanize", False), bool):
+                    raise ValueError("Romanize must be a boolean")
+        except (BadRequest, ValueError) as exc:
+            return jsonify(error=str(exc)), 400
+        results = []
+        for item in body["requests"]:
+            style = item["style"]
+            name_type = item.get("type", "forename")
+            count = item.get("count", 1)
+            gender = item.get("gender") or None
+            romanize = item.get("romanize", False)
+            result = dict(style=style, type=name_type, count=count, gender=gender, romanize=romanize)
+            try:
                 names = generate(style, name_type, count, gender, romanize=romanize)
-            results.append({
-                "style": style,
-                "type": name_type,
-                "count": count,
-                "gender": gender,
-                "romanize": romanize,
-                "names": names,
-            })
-        except (ValueError, Exception) as e:
-            results.append({
-                "style": style,
-                "type": name_type,
-                "count": count,
-                "gender": gender,
-                "error": str(e),
-            })
+                if not names:
+                    raise ValueError("No names available for this selection in the active database")
+                result.update(names=names, returned_count=len(names))
+            except ValueError as exc:
+                result["error"] = str(exc)
+            results.append(result)
+        return jsonify(results=results)
 
-    return jsonify({"results": results})
+    return app
 
+
+app = create_app()
 
 if __name__ == "__main__":
-    print("Loading style catalog...")
-    _style_catalog = _build_catalog()
-    total = sum(len(g["styles"]) for g in _style_catalog)
-    print(f"Loaded {total} styles in {len(_style_catalog)} groups.")
-    app.run(host="127.0.0.1", port=5000, debug=True, threaded=False)
+    from namegen.demo import main
+    main()

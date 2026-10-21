@@ -19,6 +19,9 @@ document.addEventListener("DOMContentLoaded", async () => {
   await loadCatalog();
   renderSidebar();
   bindGlobalEvents();
+  const group = catalog.domains.find(d => d.id === "names")?.groups.find(g => g.entries.length);
+  const entry = group?.entries.find(e => e.id === "FR") || group?.entries[0];
+  if (entry) addRow(entry.id, entry.label, entry.supported_types);
 });
 
 async function loadCatalog() {
@@ -156,6 +159,7 @@ async function generateAll() {
       body: JSON.stringify({ requests: rows }),
     });
     const data = await res.json();
+    if (!res.ok) throw new Error(data.error || "Generation failed");
     results = data.results;
     renderResults();
   } catch (err) {
@@ -180,6 +184,7 @@ async function rerollOne(index) {
       body: JSON.stringify({ requests: [req] }),
     });
     const data = await res.json();
+    if (!res.ok) throw new Error(data.error || "Generation failed");
     results[index] = data.results[0];
     renderCard(card, results[index], index);
   } catch (err) {
@@ -202,6 +207,7 @@ async function rerollAll() {
       body: JSON.stringify({ requests }),
     });
     const data = await res.json();
+    if (!res.ok) throw new Error(data.error || "Generation failed");
     results = data.results;
     renderResults();
   } catch (err) {

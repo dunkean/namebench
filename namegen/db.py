@@ -65,7 +65,7 @@ class NameDB:
     """Unified access to all name data stored in SQLite."""
 
     def __init__(self, db_path: Path | str | None = None):
-        self.db_path = Path(db_path) if db_path else DB_PATH
+        self.db_path = Path(db_path or os.environ.get("NOMNOM_DB_PATH") or DB_PATH).expanduser().resolve()
         self._conn: Optional[sqlite3.Connection] = None
 
     @property

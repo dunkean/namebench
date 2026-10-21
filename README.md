@@ -1,274 +1,72 @@
-# RPG Name Generator
+# Nomnom
 
-A unified name generation system for world-building that produces person names (forenames, surnames) and place names based on onomastic styles -- real-world cultural zones, historical periods, and fantasy/sci-fi archetypes.
+Des noms à grignoter pour vos mondes imaginaires. Petit projet provisoire de prénoms, patronymes et toponymes : pays, cultures, listes et générateurs fantasy.
 
-## Setup
+![Démo locale](docs/images/demo.png)
 
-### Requirements
 
-- Python 3.12+
-- Dependencies: `flask`, `pycountry`, `anyascii`
+## Une démo qui démarre sans les gigas
 
-```bash
-pip install -r requirements.txt
-pip install pycountry anyascii
+Python 3.11+ (3.12 recommandé). Sous Windows : double-cliquer sur **`demo.cmd`**. Le premier lancement crée `.venv` et installe le projet ; ouvrir **http://127.0.0.1:5001** et garder le terminal ouvert.
+
+```powershell
+python -m venv .venv
+.venv\Scripts\python.exe -m pip install -r requirements.lock
+.venv\Scripts\python.exe -m pip install -e ".[dev]"
+.venv\Scripts\python.exe -m namegen demo
 ```
 
-### Download Data Sources
+Sous Linux/macOS : utiliser `.venv/bin/python`. La petite base est construite depuis un échantillon écrit à la main, embarqué dans le paquet, puis conservée dans `~/.nomnom/demo-v1.db`. Aucun scraping ni téléchargement de données n'est nécessaire. Tester France/GB/Japon, elfes, lieux et export JSON/CSV/TXT. Tous les styles du moteur ne sont pas présents dans cet échantillon.
 
-Before building the database, download the required data sources into the project root:
+## Base mondiale locale
 
-| Source | Target Path | How to Get |
-|--------|-------------|------------|
-| Forebears | `forebears_names.json` | Run `scripts/scrape_forebears.py` (scrapes forebears.io) |
-| name-dataset | `philipperemy__name-dataset/` | `git clone https://github.com/philipperemy/name-dataset` and rename |
-| GeoNames | `allCountries.zip` | Download from [GeoNames](https://download.geonames.org/export/dump/allCountries.zip) (398 MB) |
-| Snake4life fantasy-names | `Snake4life__fantasy-names/` | `git clone https://github.com/Snake4life/fantasy-names` and rename |
-| Curated lists | `defaultDictionaries.json` | Already included in the repo |
+La base complète est **séparée** de la démo et ignorée par Git. Si `data/names.db` existe :
 
-### Build the Database
-
-The SQLite database must be built before first use. This imports all data sources into `data/names.db` (~927 MB):
-
-```bash
-python namegen.py --build
+```powershell
+.venv\Scripts\python.exe -m namegen demo --database data/names.db
+.venv\Scripts\python.exe -m namegen french fullname 5 --json
+.venv\Scripts\python.exe -m namegen mongol place 5
+.venv\Scripts\python.exe -m namegen sw.wookiees forename 5
+.venv\Scripts\python.exe -m namegen french surname 100000 --bulk
 ```
 
-## CLI Usage
+`NOMNOM_DB_PATH` permet de sélectionner la base pour le CLI et l'API Python. Pour interroger la petite démo depuis le CLI : définir cette variable sur `~/.nomnom/demo-v1.db` après son premier lancement. `--stats` décrit la base sélectionnée, `--list` les styles du moteur.
 
-```
-python namegen.py <style> <type> <count> [options]
-```
+L'instantané local vérifié le 21 octobre 2026 contient 8 634 303 entrées de noms, 10 170 527 lieux, 731 générateurs fantasy et 1 421 entrées sélectionnées, pour 1,21 Go. Ce ne sont pas des nombres de noms uniques. Le clone Git contient le code et la démo, **pas** cette base.
 
-### Positional Arguments
+Voir [les données et leur reconstruction](docs/data.md) avant de reconstruire une base complète. Le build refuse une base existante et exige un nouveau fichier de sortie.
 
-| Argument | Description | Values |
-|----------|-------------|--------|
-| `style` | Name style | `french`, `elf`, `demons`, `japanese`, `cyberpunk`, etc. |
-| `type` | Name type | `forename`, `surname`, `fullname`, `place` |
-| `count` | Number of names | Any positive integer |
-
-### Options
-
-| Flag | Short | Description |
-|------|-------|-------------|
-| `--gender M/F` | `-g` | Filter by gender (M or F) |
-| `--json` | `-j` | Output as JSON array |
-| `--romanize` | `-r` | Transliterate non-Latin characters to ASCII |
-| `--bulk` | `-b` | Force bulk streaming mode (auto-enabled for count >= 1000) |
-| `--unique` | `-u` | No duplicate names (capped at pool size) |
-
-### Admin Commands
-
-```bash
-python namegen.py --build    # Build/rebuild the SQLite database
-python namegen.py --list     # List all available styles
-python namegen.py --stats    # Show database row counts
-```
-
-### Examples
-
-```bash
-# Basic generation
-python namegen.py french forename 5
-python namegen.py elf surname 10
-python namegen.py demons forename 3
-python namegen.py japanese forename 5 --gender F
-
-# Full names (forename + surname)
-python namegen.py french fullname 5
-python namegen.py elf fullname 10
-
-# Place names
-python namegen.py mongol place 5
-
-# Transliteration
-python namegen.py arabic forename 5 --romanize
-python namegen.py japanese forename 5 --romanize
-
-# JSON output
-python namegen.py french forename 10 --json
-
-# Bulk generation (streaming, fast)
-python namegen.py french forename 100000
-python namegen.py elf surname 1000000
-python namegen.py japanese forename 50000 --gender F --unique
-
-# Pipe to file
-python namegen.py arabic place 500000 --romanize > places.txt
-```
-
-### Bulk Mode
-
-For counts >= 1000, bulk mode activates automatically. It pre-loads name pools into memory and samples from Python, making per-name cost near-zero after the initial load.
-
-- **100 names**: ~0.2s
-- **100,000 names**: ~0.4s
-
-Use `--unique` to guarantee no duplicates (output is capped at the available pool size). Use `--bulk` to force bulk mode for smaller counts.
-
-## Python API
+## Python et codes personnalisés
 
 ```python
-from namegen import generate, generate_bulk, list_styles
-
-# Standard generation (returns list)
-names = generate("french", "forename", 10)
-names = generate("elf", "surname", 5, gender="M")
-names = generate("japanese", "forename", 3, gender="F", romanize=True)
-
-# Bulk generation (returns iterator, streams one name at a time)
-for name in generate_bulk("french", "forename", 100000):
-    print(name)
-
-# Bulk with unique names
-for name in generate_bulk("japanese", "forename", 50000, gender="F", unique=True):
-    print(name)
-
-# List all available styles
-styles = list_styles()
-for category, names in styles.items():
-    print(f"{category}: {len(names)} styles")
+from namegen import generate, generate_bulk
+names = generate("french", "fullname", 5)
+for name in generate_bulk("elf", "surname", 100000):
+    pass
 ```
 
-### API Reference
+`namegen/onomastic_zones.json` définit cultures, superpositions et opérations d'ensembles. `namegen/catalog.json` définit groupes et abréviations : pays ISO (`FR`, `JP`), cultures (`french`), fantasy (`elf`, `sw.wookiees`), listes (`demons`). Les dictionnaires sélectionnés restent dans `defaultDictionaries.json`.
 
-#### `generate(style, name_type, count, gender, romanize)`
+## Contrat et limites
 
-| Parameter | Type | Default | Description |
-|-----------|------|---------|-------------|
-| `style` | str | required | Style name |
-| `name_type` | str | `"forename"` | `forename`, `surname`, `fullname`, `place` |
-| `count` | int | `1` | Number of names |
-| `gender` | str/None | `None` | `"M"`, `"F"`, or `None` |
-| `romanize` | bool | `False` | Transliterate non-Latin scripts |
+- Types : `forename`, `surname`, `fullname`, `place` ; genre `M`, `F` ou absent ; romanisation facultative.
+- HTTP : `GET /api/catalog`, `GET /api/styles`, `POST /api/generate` avec `{"requests":[{"style":"FR","type":"fullname","count":5}]}`. Maximum 20 lignes de 100 noms ; entrées invalides : HTTP 400. Les erreurs par style sont dans chaque résultat.
+- Un petit pool peut rendre moins de noms que demandé ; `returned_count` précise le résultat HTTP. Le bulk peut répéter ; `--unique` est plafonné au pool disponible.
+- Les styles historiques sélectionnent surtout des pays actuels : aucune authenticité historique garantie. Les corpus mondiaux peuvent contenir du bruit.
+- Le hasard SQLite n'est pas reproductible par une graine Python. Aucun contrat de replay déterministe à ce stade.
+- Markov et hybride sont des stratégies expérimentales présentes dans le code, non sélectionnées par le résolveur public actuel.
+- Serveur local de démonstration, sans debug ni reloader. Aucun lien avec Cousinade ou un moteur de cartes.
 
-Returns: `list[str]`
+## Vérifier
 
-#### `generate_bulk(style, name_type, count, gender, romanize, unique)`
-
-Same parameters as `generate()`, plus:
-
-| Parameter | Type | Default | Description |
-|-----------|------|---------|-------------|
-| `unique` | bool | `False` | No duplicates (capped at pool size) |
-
-Returns: `Iterator[str]` (streaming, never holds all names in memory)
-
-#### `list_styles()`
-
-Returns: `dict[str, list[str]]` -- styles grouped by category
-
-## Web App
-
-A Flask web UI for interactive name generation.
-
-### Running
-
-```bash
-cd webapp
-python app.py
+```powershell
+.venv\Scripts\python.exe -m pytest
+.venv\Scripts\python.exe -m build
+npm ci
+# Démo lancée sur 5001, Edge disponible sous Windows.
+npm run test:browser
 ```
 
-Opens at `http://127.0.0.1:5000`.
+`STUDIO_BROWSER` choisit un autre exécutable Chromium/Edge et `NOMNOM_URL` une autre URL. Captures : `output/screenshots/` (ignoré).
 
-### API Endpoints
-
-#### `GET /`
-Serves the web UI.
-
-#### `GET /api/styles`
-Returns the full style catalog as JSON, grouped by category.
-
-#### `POST /api/generate`
-Generate names. Accepts JSON body:
-
-```json
-{
-  "requests": [
-    {
-      "style": "french",
-      "type": "forename",
-      "count": 10,
-      "gender": "F",
-      "romanize": false
-    }
-  ]
-}
-```
-
-Returns:
-
-```json
-{
-  "results": [
-    {
-      "style": "french",
-      "type": "forename",
-      "count": 10,
-      "gender": "F",
-      "romanize": false,
-      "names": ["Marie", "Sophie", ...]
-    }
-  ]
-}
-```
-
-Count is capped at 100 per request via the web API.
-
-## Available Styles
-
-### Strategy Types
-
-| Strategy | Use Case | Examples |
-|----------|----------|---------|
-| **DB Lookup** | Real-world cultural names from 12.8M name database | `french`, `japanese`, `arabic`, `russian` |
-| **Fantasy** | Ported JS generators (731 generators across 36 categories) | `elf`, `dwarf`, `cyberpunk`, `klingon` |
-| **Curated** | Hand-curated mythological/historical lists | `demons`, `angels`, `egyptian_gods`, `emperors` |
-| **Markov** | Procedural generation trained on DB data | Used as fallback in hybrid mode |
-| **Hybrid** | DB lookup with Markov fallback | Combines real data with procedural variety |
-
-### Onomastic Styles (Real-World)
-
-`french`, `italian`, `spanish`, `portuguese`, `german`, `dutch`, `english`, `scandinavian`, `hungarian`, `finnish`, `greek`, `russian`, `ukrainian`, `polish`, `czech`, `romanian`, `arabic`, `persian`, `turkish`, `japanese`, `korean`, `chinese`, `mandarin`, `cantonese`, `vietnamese`, `thai`, `hindi`, `bengali`, `tamil`, `swahili`, `yoruba`, `brazilian`, `mexican`, `latin`, `roman`, `viking`, `celtic`, `byzantine`, `ottoman`, `mongol`, `slavic`, `germanic`, `romance`, `nordic`, `balkan`
-
-### Curated Lists
-
-`demons`, `angels`, `egyptian_gods`, `planets`, `greek_cities`, `emperors`, `states`
-
-### Fantasy
-
-Run `python namegen.py --list` to see all 731 fantasy generators organized by franchise (D&D, Elder Scrolls, Star Wars, Warhammer, etc.).
-
-## Project Structure
-
-```
-namegen/
-  __init__.py          # Public exports: generate, generate_bulk, list_styles
-  api.py               # generate() and generate_bulk() implementation
-  db.py                # NameDB -- SQLite schema and access layer
-  styles.py            # StyleRegistry -- resolves style names to strategies
-  zones.py             # OnomasticResolver -- parses onomastic_zones.json
-  country_map.py       # Country name/code mapping via pycountry
-  strategies/
-    db_lookup.py       # RandomDBLookup -- real-world names from SQLite
-    fantasy.py         # FantasyGenerator -- ported Snake4life JS generators
-    curated.py         # CuratedListStrategy -- mythological/historical lists
-    markov.py          # MarkovChainGenerator -- procedural generation
-    hybrid.py          # HybridStrategy -- DB + Markov fallback
-  importers/
-    import_forebears.py
-    import_philipperemy.py
-    import_geonames.py
-    import_fantasy.py
-    import_curated.py
-webapp/
-  app.py               # Flask web app
-  templates/index.html  # Web UI
-  static/app.js        # Frontend JS
-  static/style.css     # Styles
-scripts/
-  scrape_forebears.py  # Forebears.io scraper
-  scrape_github.py     # GitHub dataset downloader
-namegen.py             # CLI entry point
-```
+L'historique Git du générateur d'origine est conservé. Les grandes données locales restent à leur place. Voir [l'origine du projet](PROVENANCE.md).

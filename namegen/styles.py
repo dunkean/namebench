@@ -294,6 +294,8 @@ class StyleRegistry:
     def resolve(self, style: str) -> Optional[StyleSpec]:
         """Resolve a style name to a StyleSpec."""
         spec = self._resolve_inner(style)
+        if spec is not None and spec.category == "onomastic":
+            spec.supported_types = ["forename", "surname", "fullname", "place"]
         if spec is not None and self.catalog and not spec.supported_types:
             entry = self.catalog.get_entry(spec.strategy_key)
             if entry:

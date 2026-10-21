@@ -30,3 +30,14 @@ Thumbs.db
 venv/
 .venv/
 env/
+
+# Standalone demo and checks
+data/*.db*
+*.db-shm
+*.db-wal
+.pytest_cache/
+.ruff_cache/
+output/
+node_modules/
+.env
+.env.*

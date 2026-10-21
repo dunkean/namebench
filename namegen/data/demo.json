@@ -1,0 +1,183 @@
+{
+  "description": "Hand-authored small demo; no scrape or large database required.",
+  "countries": {
+    "FR": {
+      "M": [
+        "Arthur",
+        "Basile",
+        "Clément",
+        "Émile",
+        "Félix",
+        "Gaspard",
+        "Hugo",
+        "Jules",
+        "Léon",
+        "Noé"
+      ],
+      "F": [
+        "Alice",
+        "Camille",
+        "Élise",
+        "Flore",
+        "Iris",
+        "Jeanne",
+        "Louise",
+        "Nina",
+        "Rose",
+        "Zoé"
+      ],
+      "surnames": [
+        "Aubépine",
+        "Beaulieu",
+        "Clairbois",
+        "Després",
+        "Duval",
+        "Fontaine",
+        "Lavigne",
+        "Morel",
+        "Petit",
+        "Rivière",
+        "Roux",
+        "Valmont"
+      ],
+      "places": [
+        "Bellecombe",
+        "Boisjoli",
+        "Clairval",
+        "Fontenelle",
+        "La Châtaigneraie",
+        "Les Trois Ponts",
+        "Montfleuri",
+        "Port-Brume",
+        "Rochebrune",
+        "Val-des-Ormes"
+      ]
+    },
+    "GB": {
+      "M": [
+        "Arthur",
+        "Basil",
+        "Cedric",
+        "Edwin",
+        "Felix",
+        "Henry",
+        "Jasper",
+        "Miles",
+        "Oliver",
+        "Rowan"
+      ],
+      "F": [
+        "Alice",
+        "Clara",
+        "Daisy",
+        "Edith",
+        "Hazel",
+        "Iris",
+        "June",
+        "Lucy",
+        "Rose",
+        "Willow"
+      ],
+      "surnames": [
+        "Ashford",
+        "Briarwood",
+        "Brook",
+        "Fairfield",
+        "Green",
+        "Hawthorn",
+        "Hill",
+        "Meadow",
+        "Reed",
+        "Vale",
+        "West",
+        "Wood"
+      ],
+      "places": [
+        "Ashbrook",
+        "Briarford",
+        "Clearwater",
+        "Fox Hollow",
+        "Greenhill",
+        "Hazelwood",
+        "Oldbridge",
+        "Reedbank",
+        "Westmere",
+        "Willow Vale"
+      ]
+    },
+    "JP": {
+      "M": [
+        "あきら",
+        "はると",
+        "れん",
+        "ゆうと",
+        "そうた",
+        "だいち"
+      ],
+      "F": [
+        "あおい",
+        "はな",
+        "ゆい",
+        "りん",
+        "さくら",
+        "めい"
+      ],
+      "surnames": [
+        "森",
+        "林",
+        "山田",
+        "田中",
+        "川口",
+        "石川"
+      ],
+      "places": [
+        "青葉",
+        "白川",
+        "花森",
+        "月丘",
+        "緑谷",
+        "星原"
+      ]
+    }
+  },
+  "fantasy": {
+    "nm1": [
+      "Aer",
+      "Bel",
+      "Cor",
+      "Dar",
+      "El",
+      "Fen",
+      "Gal",
+      "Har",
+      "Is",
+      "Lor"
+    ],
+    "nm2": [
+      "a",
+      "en",
+      "ia",
+      "ion",
+      "ora",
+      "iel",
+      "wyn",
+      "eth"
+    ],
+    "nm3": [
+      "Brume",
+      "Feuille",
+      "Étoile",
+      "Lune",
+      "Ronce",
+      "Aube"
+    ],
+    "nm4": [
+      "claire",
+      "dorée",
+      "vive",
+      "douce",
+      "haute",
+      "argentée"
+    ]
+  }
+}

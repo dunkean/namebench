@@ -218,6 +218,8 @@ class Catalog:
                     supported = ["forename", "surname", "fullname"]
 
             count = curated_counts.get(e["id"], 0) or onomastic_counts.get(e["id"], 0)
+            if provider in ("onomastic", "onomastic_place", "curated") and not count:
+                continue
             entries.append(CatalogEntry(
                 id=e["id"], label=e["label"], supported_types=supported,
                 count=count,

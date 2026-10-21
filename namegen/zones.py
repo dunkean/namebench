@@ -6,7 +6,7 @@ import json
 from pathlib import Path
 from typing import Optional
 
-ZONES_PATH = Path(__file__).resolve().parent.parent / "onomastic_zones.json"
+ZONES_PATH = Path(__file__).resolve().parent / "onomastic_zones.json"
 
 
 class OnomasticResolver:

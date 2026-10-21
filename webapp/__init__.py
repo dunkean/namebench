@@ -1,0 +1,1 @@
+"""Nomnom local browser application."""

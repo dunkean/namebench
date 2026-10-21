@@ -1,0 +1,6 @@
+include README.md PROVENANCE.md AGENTS.md demo.cmd requirements.lock requirements.txt
+include defaultDictionaries.json package.json package-lock.json namegen.py
+recursive-include docs *.md
+recursive-include scripts *.py
+recursive-include tests *.py *.cjs
+recursive-include docs *.png
